@@ -17,6 +17,7 @@ class AWeapon;
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseItem);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseSpell);
 
 UCLASS(config=Game)
 class ABoltCharacter : public ACharacter
@@ -48,10 +49,15 @@ public:
 	/** Delegate to whom anyone can subscribe to receive this event */
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnUseItem OnUseItem;
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FOnUseSpell OnUseSpell;
 protected:
 	
 	/** Fires a projectile. */
 	void OnPrimaryAction();
+
+	void OnSpellAction();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
