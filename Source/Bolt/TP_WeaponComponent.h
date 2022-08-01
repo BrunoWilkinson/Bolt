@@ -14,10 +14,6 @@ class BOLT_API UTP_WeaponComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	/** Projectile class to spawn */
-	UPROPERTY(EditDefaultsOnly, Category=Projectile)
-	TSubclassOf<class ABoltProjectile> ProjectileClass;
-
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	USoundBase* FireSound;
@@ -29,6 +25,9 @@ public:
 	/** Gun muzzle's offset from the characters location */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector MuzzleOffset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector LineTraceDistance;
 
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();

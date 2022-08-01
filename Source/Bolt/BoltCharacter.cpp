@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BoltCharacter.h"
-#include "BoltProjectile.h"
 #include "TP_WeaponComponent.h"
 #include "Weapon.h"
 #include "Animation/AnimInstance.h"
