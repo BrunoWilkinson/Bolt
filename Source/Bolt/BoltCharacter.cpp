@@ -2,6 +2,8 @@
 
 #include "BoltCharacter.h"
 #include "BoltProjectile.h"
+#include "TP_WeaponComponent.h"
+#include "Weapon.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -42,6 +44,20 @@ void ABoltCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
+	UWorld* World = GetWorld();
+	if (WeaponClass != nullptr && World != nullptr)
+	{
+		FActorSpawnParameters ActorSpawnParams;
+		AWeapon* Weapon = World->SpawnActor<AWeapon>(WeaponClass, GetActorLocation() + 100, GetActorRotation(), ActorSpawnParams);
+		if (Weapon != nullptr)
+		{
+			UTP_WeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();
+			if (WeaponComponent != nullptr)
+			{
+				WeaponComponent->AttachWeapon(this);
+			}
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
