@@ -16,6 +16,9 @@ class BOLT_API ADrongoAIController : public AAIController
 
 	UPROPERTY(EditAnywhere)
 	class UBehaviorTree* AIBehavior;
+
+public:
+	virtual void Tick(float DeltaTime) override;
 	
 protected:
 	virtual void BeginPlay() override;
