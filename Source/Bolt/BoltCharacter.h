@@ -13,6 +13,7 @@ class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
 class AWeapon;
+class UHealthComponent;
 
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
@@ -35,6 +36,9 @@ class ABoltCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AWeapon> WeaponClass;
 
+	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	UHealthComponent* HealthComponent;
+
 public:
 	ABoltCharacter();
 
@@ -52,6 +56,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnUseSpell OnUseSpell;
+
 protected:
 	
 	/** Fires a projectile. */

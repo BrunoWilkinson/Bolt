@@ -3,6 +3,7 @@
 #include "BoltCharacter.h"
 #include "TP_WeaponComponent.h"
 #include "Weapon.h"
+#include "HealthComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -36,6 +37,7 @@ ABoltCharacter::ABoltCharacter()
 	Mesh1P->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 }
 
 void ABoltCharacter::BeginPlay()
