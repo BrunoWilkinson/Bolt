@@ -2,6 +2,7 @@
 
 
 #include "BTService_PlayerLocationIfSeen.h"
+#include "DrongoAIController.h"
 #include "Kismet/GameplayStatics.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -14,18 +15,18 @@ UBTService_PlayerLocationIfSeen::UBTService_PlayerLocationIfSeen()
 void UBTService_PlayerLocationIfSeen::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	APawn* Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	AAIController* AIController = OwnerComp.GetAIOwner();
+	ADrongoAIController* AIController = Cast<ADrongoAIController>(OwnerComp.GetAIOwner());
 	UBlackboardComponent* BlackboardComponent = OwnerComp.GetBlackboardComponent();
 	if (Player != nullptr && AIController != nullptr && BlackboardComponent != nullptr)
 	{
 		if (AIController->LineOfSightTo(Player))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("SET PLAYER"));
+			AIController->SetHasSeenPlayer(true);
 			BlackboardComponent->SetValueAsObject(GetSelectedBlackboardKey(), Player);
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("CLEAR PLAYER"));
+			AIController->SetHasSeenPlayer(false);
 			BlackboardComponent->ClearValue(GetSelectedBlackboardKey());
 		}
 	}
