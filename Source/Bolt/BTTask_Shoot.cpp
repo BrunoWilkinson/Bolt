@@ -19,7 +19,7 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 		AAICharacter* AICharacter = Cast<AAICharacter>(OwnerComp.GetAIOwner()->GetPawn());
 		if (AICharacter != nullptr)
 		{
-			// call the shoot method on the AICharacter
+			AICharacter->Shoot();
 			return EBTNodeResult::Succeeded;
 		}
 	}

@@ -3,6 +3,7 @@
 
 #include "AICharacter.h"
 #include "HealthComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AAICharacter::AAICharacter()
@@ -30,4 +31,20 @@ void AAICharacter::Tick(float DeltaTime)
 void AAICharacter::SetHasSeenPlayer(bool bValue)
 {
 	bHasSeenPlayer = bValue;
+}
+
+void AAICharacter::Shoot()
+{
+	FVector Start = GetActorLocation() + GetActorRotation().RotateVector(MuzzleOffset);
+	FVector End = Start + GetActorRotation().RotateVector(LineTraceDistance);
+
+	DrawDebugLine(GetWorld(), Start, End, FColor::Cyan, false, 3.0f, 0, 2.0f);
+
+	FHitResult HitResult;
+	bool HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel2);
+
+	if (HasHit)
+	{
+		// Apply Damage
+	}
 }

@@ -28,6 +28,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector MuzzleOffset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector LineTraceDistance;
+
 	UFUNCTION(BLueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
@@ -35,6 +41,8 @@ public:
 	bool GetHasSeenPlayer() const { return bHasSeenPlayer; }
 
 	void SetHasSeenPlayer(bool bValue);
+
+	void Shoot();
 
 private:
 	bool bHasSeenPlayer;
