@@ -13,7 +13,6 @@ void ADrongoAIController::BeginPlay()
 	if (AIBehavior != nullptr && PlayerPawn != nullptr)
 	{
 		RunBehaviorTree(AIBehavior);
-		GetBlackboardComponent()->SetValueAsObject(TEXT("Player"), PlayerPawn);
 	}
 }
 
@@ -21,10 +20,4 @@ void ADrongoAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-
-	if (PlayerPawn != nullptr && GetBlackboardComponent() != nullptr)
-	{
-		GetBlackboardComponent()->SetValueAsObject(TEXT("Player"), PlayerPawn);
-	}
 }
