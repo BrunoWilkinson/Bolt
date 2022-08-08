@@ -19,15 +19,7 @@ class BOLT_API ADrongoAIController : public AAIController
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintPure)
-	bool GetHasSeenPlayer() const { return bHasSeenPlayer; }
-
-	void SetHasSeenPlayer(bool bValue);
 	
 protected:
 	virtual void BeginPlay() override;
-
-private:
-	bool bHasSeenPlayer;
 };

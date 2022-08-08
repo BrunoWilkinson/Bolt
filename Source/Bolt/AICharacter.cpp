@@ -26,3 +26,8 @@ void AAICharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+void AAICharacter::SetHasSeenPlayer(bool bValue)
+{
+	bHasSeenPlayer = bValue;
+}

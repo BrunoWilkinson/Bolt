@@ -30,4 +30,12 @@ public:
 
 	UFUNCTION(BLueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
+
+	UFUNCTION(BlueprintPure)
+	bool GetHasSeenPlayer() const { return bHasSeenPlayer; }
+
+	void SetHasSeenPlayer(bool bValue);
+
+private:
+	bool bHasSeenPlayer;
 };

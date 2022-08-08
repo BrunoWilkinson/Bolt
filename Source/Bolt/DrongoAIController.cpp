@@ -21,9 +21,3 @@ void ADrongoAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-void ADrongoAIController::SetHasSeenPlayer(bool bValue)
-{
-	bHasSeenPlayer = bValue;
-}
-
