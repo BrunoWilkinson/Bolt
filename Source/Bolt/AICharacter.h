@@ -34,6 +34,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector LineTraceDistance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	UAnimMontage* FireAnimation;
+
 	UFUNCTION(BLueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
@@ -46,4 +49,5 @@ public:
 
 private:
 	bool bHasSeenPlayer;
+
 };

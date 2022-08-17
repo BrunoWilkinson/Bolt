@@ -35,6 +35,12 @@ void AAICharacter::SetHasSeenPlayer(bool bValue)
 
 void AAICharacter::Shoot()
 {
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance != nullptr)
+	{
+		AnimInstance->Montage_Play(FireAnimation, 1.f);
+	}
+
 	FVector Start = GetActorLocation() + GetActorRotation().RotateVector(MuzzleOffset);
 	FVector End = Start + GetActorRotation().RotateVector(LineTraceDistance);
 
