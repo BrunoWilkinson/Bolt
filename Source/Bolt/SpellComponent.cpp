@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Field/FieldSystemActor.h"
 
 // Sets default values for this component's properties
 USpellComponent::USpellComponent()
@@ -47,20 +48,29 @@ void USpellComponent::Fire()
 		}
 	}
 
-	APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-	const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+	UWorld* World = GetWorld();
 
-	FVector Start = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-	FVector End = Start + SpawnRotation.RotateVector(LineTraceDistance);
-
-	DrawDebugLine(GetWorld(), Start, End, FColor::Blue, false, 3.0f, 0, 2.0f);
-
-	FHitResult HitResult;
-	bool HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel2);
-
-	if (HasHit)
+	if (World != nullptr)
 	{
-		// Apply chaos destructions
+		APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+		const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+
+		FVector Start = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+		FVector End = Start + SpawnRotation.RotateVector(LineTraceDistance);
+
+		DrawDebugLine(World, Start, End, FColor::Blue, false, 3.0f, 0, 2.0f);
+
+		FHitResult HitResult;
+		bool HasHit = World->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel4);
+
+		if (HasHit)
+		{
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+			FVector Location = HitResult.ImpactNormal + HitResult.Location;
+
+			World->SpawnActor<AFieldSystemActor>(FieldSystemActorClass, Location, HitResult.Location.Rotation(), ActorSpawnParams);
+		}
 	}
 }
 

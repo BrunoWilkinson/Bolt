@@ -7,6 +7,7 @@
 #include "SpellComponent.generated.h"
 
 class ABoltCharacter;
+class AFieldSystemActor;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BOLT_API USpellComponent : public UActorComponent
@@ -28,6 +29,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector LineTraceDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	TSubclassOf<AFieldSystemActor> FieldSystemActorClass;
 
 	/** Sets default values for this component's properties */
 	USpellComponent();
