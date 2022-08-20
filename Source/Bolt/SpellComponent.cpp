@@ -66,9 +66,9 @@ void USpellComponent::Fire()
 		if (HasHit)
 		{
 			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			FVector Location = HitResult.ImpactNormal + HitResult.Location;
-
+			DrawDebugSphere(World, Location, 20.0f, 20, FColor::Purple, false, 3.0f, 0, 2.0f);
 			World->SpawnActor<AFieldSystemActor>(FieldSystemActorClass, Location, HitResult.Location.Rotation(), ActorSpawnParams);
 		}
 	}
