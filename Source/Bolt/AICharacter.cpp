@@ -3,6 +3,7 @@
 
 #include "AICharacter.h"
 #include "HealthComponent.h"
+#include "BoltCharacter.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -51,6 +52,14 @@ void AAICharacter::Shoot()
 
 	if (HasHit)
 	{
-		// Apply Damage
+		ABoltCharacter* Player = Cast<ABoltCharacter>(HitResult.GetActor());
+		if (Player != nullptr)
+		{
+			UHealthComponent* PlayerHealthComponent = Player->GetHealthComponent();
+			if (PlayerHealthComponent != nullptr)
+			{
+				PlayerHealthComponent->ApplyDamage(Damage);
+			}
+		}
 	}
 }

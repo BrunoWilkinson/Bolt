@@ -30,7 +30,7 @@ public:
 	FVector LineTraceDistance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	float Damage;
+	float Damage = 20;
 
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();

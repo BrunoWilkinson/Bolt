@@ -13,9 +13,6 @@ class BOLT_API AAICharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	UHealthComponent* HealthComponent;
-
 public:
 	// Sets default values for this character's properties
 	AAICharacter();
@@ -37,7 +34,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	UAnimMontage* FireAnimation;
 
-	UFUNCTION(BLueprintPure)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float Damage = 20;
+
+	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 	UFUNCTION(BlueprintPure)
@@ -50,4 +50,6 @@ public:
 private:
 	bool bHasSeenPlayer;
 
+	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	UHealthComponent* HealthComponent;
 };

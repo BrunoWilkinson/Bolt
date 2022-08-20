@@ -36,9 +36,6 @@ class ABoltCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AWeapon> WeaponClass;
 
-	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	UHealthComponent* HealthComponent;
-
 public:
 	ABoltCharacter();
 
@@ -56,6 +53,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnUseSpell OnUseSpell;
+
+	UFUNCTION(BlueprintPure)
+	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 protected:
 	
@@ -114,5 +114,8 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+private:
+	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	UHealthComponent* HealthComponent;
 };
 

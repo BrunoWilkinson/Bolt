@@ -27,7 +27,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Values)
-	float MaxHealth;
+	float MaxHealth = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = Values)
 	float Health;
