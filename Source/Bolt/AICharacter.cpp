@@ -19,14 +19,17 @@ AAICharacter::AAICharacter()
 void AAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	if (HealthComponent != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("LISTEN TO DEATH EVENT"));
+		HealthComponent->OnDeath.AddDynamic(this, &AAICharacter::Death);
+	}
 }
 
 // Called every frame
 void AAICharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AAICharacter::SetHasSeenPlayer(bool bValue)
@@ -37,7 +40,7 @@ void AAICharacter::SetHasSeenPlayer(bool bValue)
 void AAICharacter::Shoot()
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (AnimInstance != nullptr)
+	if (AnimInstance != nullptr && FireAnimation != nullptr)
 	{
 		AnimInstance->Montage_Play(FireAnimation, 1.f);
 	}
@@ -61,5 +64,26 @@ void AAICharacter::Shoot()
 				PlayerHealthComponent->ApplyDamage(Damage);
 			}
 		}
+	}
+}
+
+void AAICharacter::Death()
+{
+	SetActorEnableCollision(false);
+	DetachFromControllerPendingDestroy();
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance != nullptr && DeathAnimation != nullptr)
+	{
+		AnimInstance->Montage_Play(DeathAnimation, 1.f);
+	}
+	SetLifeSpan(5);
+}
+
+void AAICharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	if (HealthComponent != nullptr)
+	{
+		HealthComponent->OnDeath.RemoveDynamic(this, &AAICharacter::Death);
 	}
 }

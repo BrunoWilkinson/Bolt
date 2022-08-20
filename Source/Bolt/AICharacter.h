@@ -21,6 +21,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -35,6 +38,9 @@ public:
 	UAnimMontage* FireAnimation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	UAnimMontage* DeathAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	float Damage = 20;
 
 	UFUNCTION(BlueprintPure)
@@ -46,6 +52,9 @@ public:
 	void SetHasSeenPlayer(bool bValue);
 
 	void Shoot();
+
+	UFUNCTION()
+	void Death();
 
 private:
 	bool bHasSeenPlayer;
