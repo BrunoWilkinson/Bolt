@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BOLT_API UHealthComponent : public UActorComponent
@@ -22,6 +23,9 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FOnDeath OnDeath;
 
 	void ApplyDamage(float Value);
 

@@ -20,4 +20,8 @@ bool UHealthComponent::IsDead() const
 void UHealthComponent::ApplyDamage(float Value)
 {
 	Health -= FMath::Min(Health, Value);
+	if (IsDead())
+	{
+		OnDeath.Broadcast();
+	}
 }
