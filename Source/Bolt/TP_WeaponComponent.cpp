@@ -3,6 +3,8 @@
 
 #include "TP_WeaponComponent.h"
 #include "BoltCharacter.h"
+#include "AICharacter.h"
+#include "HealthComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
@@ -50,11 +52,19 @@ void UTP_WeaponComponent::Fire()
 	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 3.0f, 0, 2.0f);
 
 	FHitResult HitResult;
-	bool HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel2);
+	bool HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel3);
 
 	if (HasHit)
 	{
-		// Apply Damage
+		AAICharacter* AICharacter = Cast<AAICharacter>(HitResult.GetActor());
+		if (AICharacter != nullptr)
+		{
+			UHealthComponent* HealthComponent = AICharacter->GetHealthComponent();
+			if (HealthComponent != nullptr)
+			{
+				HealthComponent->ApplyDamage(Damage);
+			}
+		}
 	}
 }
 

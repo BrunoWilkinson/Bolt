@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector LineTraceDistance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float Damage;
+
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
 
