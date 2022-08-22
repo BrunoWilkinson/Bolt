@@ -21,7 +21,6 @@ void AAICharacter::BeginPlay()
 	Super::BeginPlay();
 	if (HealthComponent != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("LISTEN TO DEATH EVENT"));
 		HealthComponent->OnDeath.AddDynamic(this, &AAICharacter::Death);
 	}
 }
