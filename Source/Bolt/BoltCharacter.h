@@ -57,6 +57,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
+	UFUNCTION(BlueprintPure)
+	AWeapon* GetWeapon() const { return Weapon; }
+
 protected:
 	
 	/** Fires a projectile. */
@@ -117,5 +120,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	UHealthComponent* HealthComponent;
+
+	AWeapon* Weapon;
 };
 

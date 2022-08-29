@@ -16,11 +16,21 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 	// Default offset from the character location for projectiles to spawn
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 	LineTraceDistance = FVector(500.0f, 0.0f, 10.0f);
+	Ammo = MaxAmmo;
 }
 
 
 void UTP_WeaponComponent::Fire()
-{
+{	
+	if (Ammo <= 0)
+	{
+		if (!GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
+		{
+			GetWorld()->GetTimerManager().SetTimer(AmmoTimerHandle, this, &UTP_WeaponComponent::Reload, ReloadTime, false);
+		}
+		return;
+	}
+
 	if(Character == nullptr || Character->GetController() == nullptr)
 	{
 		return;
@@ -66,6 +76,8 @@ void UTP_WeaponComponent::Fire()
 			}
 		}
 	}
+
+	Ammo--;
 }
 
 void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -75,6 +87,11 @@ void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		// Unregister from the OnUseItem Event
 		Character->OnUseItem.RemoveDynamic(this, &UTP_WeaponComponent::Fire);
 	}
+}
+
+void UTP_WeaponComponent::Reload()
+{
+	Ammo = MaxAmmo;
 }
 
 void UTP_WeaponComponent::AttachWeapon(ABoltCharacter* TargetCharacter)

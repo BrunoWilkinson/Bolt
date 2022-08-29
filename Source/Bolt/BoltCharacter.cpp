@@ -49,7 +49,7 @@ void ABoltCharacter::BeginPlay()
 	if (WeaponClass != nullptr && World != nullptr)
 	{
 		FActorSpawnParameters ActorSpawnParams;
-		AWeapon* Weapon = World->SpawnActor<AWeapon>(WeaponClass, GetActorLocation() + 100, GetActorRotation(), ActorSpawnParams);
+		Weapon = World->SpawnActor<AWeapon>(WeaponClass, GetActorLocation() + 100, GetActorRotation(), ActorSpawnParams);
 		if (Weapon != nullptr)
 		{
 			UTP_WeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();

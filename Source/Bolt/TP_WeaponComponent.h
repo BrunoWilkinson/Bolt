@@ -29,9 +29,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector LineTraceDistance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	float Damage = 20;
-
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
 
@@ -43,12 +40,34 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
+	UFUNCTION(BlueprintPure)
+	float GetAmmo() const { return Ammo; }
+
 protected:
 	/** Ends gameplay for this component. */
 	UFUNCTION()
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 		
 private:
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float Damage = 20.0f;
+
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
+	float Ammo;
+
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float MaxAmmo = 15.0f;
+
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float FireRate = 0.5f;
+
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float ReloadTime = 2.0f;;
+
 	/** The Character holding this weapon*/
 	ABoltCharacter* Character;
+
+	FTimerHandle AmmoTimerHandle;
+
+	void Reload();
 };
