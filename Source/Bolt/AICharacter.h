@@ -40,9 +40,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	UAnimMontage* DeathAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	float Damage = 20;
-
 	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
@@ -61,4 +58,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float Damage = 20.0f;
+
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float LifeSpan = 5.0f;
 };

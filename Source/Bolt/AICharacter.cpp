@@ -75,7 +75,7 @@ void AAICharacter::Death()
 	{
 		AnimInstance->Montage_Play(DeathAnimation, 1.f);
 	}
-	SetLifeSpan(5);
+	SetLifeSpan(LifeSpan);
 }
 
 void AAICharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
