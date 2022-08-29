@@ -53,6 +53,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 	float Cooldown = 3.0f;
 
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float SpanLifeAfterImpact = 5.0f;
+
 	/** The Character holding this weapon*/
 	ABoltCharacter* Character;
 

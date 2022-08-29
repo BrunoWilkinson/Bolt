@@ -31,15 +31,13 @@ public:
 	void EndGame();
 
 	UFUNCTION(BlueprintPure)
-	int32 EnemyCount();
+	int32 GetTotalEnemiesKilled();
 
 	UFUNCTION(BlueprintPure)
-	int32 DestructionCount();
+	int32 GetTotalDestroyedObjects();
 
 protected:
 	void BeginPlay() override;
-
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category=Gameplay)
@@ -54,14 +52,13 @@ private:
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 	float EnemyMultiplier = 1.0f;
 
-	UPROPERTY(VisibleAnywhere, Category = Information)
-	int32 InitialEnemyCount;
+	int32 InitialTotalEnemies;
 
-	UPROPERTY(VisibleAnywhere, Category = Information)
-	int32 InitialDestructionCount;
+	int32 InitialTotalDestructibleObjects;
 
-	UPROPERTY(VisibleAnywhere, Category = Information)
-	float TimeCount;
+	int32 GetTotalEnemies();
+
+	int32 GetTotalDestructibleObjects();
 };
 
 

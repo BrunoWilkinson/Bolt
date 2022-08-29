@@ -17,9 +17,8 @@ ABoltGameMode::ABoltGameMode()
 
 TEnumAsByte<ERating> ABoltGameMode::GetRating()
 {
-	int32 FinalEnemyCount = InitialEnemyCount - EnemyCount();
-	int32 FinalDestructionCount = InitialDestructionCount - DestructionCount();
-	float Rating = TimeCount * TimeMultiplier + FinalDestructionCount * DestructionMultiplier + FinalEnemyCount * EnemyMultiplier;
+	float TimeScore = 50 * 100 / GetWorld()->GetTimeSeconds();
+	float Rating = TimeScore * TimeMultiplier + GetTotalDestroyedObjects() * DestructionMultiplier + GetTotalEnemiesKilled() * EnemyMultiplier;
 	int32 RatingPercentage = (Rating / MaxRating) * 100;
 	if (RatingPercentage >= 90)
 	{
@@ -55,23 +54,28 @@ void ABoltGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitialEnemyCount = EnemyCount();
-	InitialDestructionCount = DestructionCount();
+	InitialTotalEnemies = GetTotalEnemies();
+	InitialTotalDestructibleObjects = GetTotalDestructibleObjects();
 }
 
-void ABoltGameMode::Tick(float DeltaTime)
+int32 ABoltGameMode::GetTotalEnemiesKilled()
 {
-	TimeCount += GetWorld()->GetTimeSeconds();
+	return InitialTotalEnemies - GetTotalEnemies();
 }
 
-int32 ABoltGameMode::EnemyCount()
+int32 ABoltGameMode::GetTotalDestroyedObjects()
+{
+	return InitialTotalDestructibleObjects - GetTotalDestructibleObjects();
+}
+
+int32 ABoltGameMode::GetTotalEnemies()
 {
 	TArray<AActor*> Enemies;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AAICharacter::StaticClass(), Enemies);
 	return Enemies.Num();
 }
 
-int32 ABoltGameMode::DestructionCount()
+int32 ABoltGameMode::GetTotalDestructibleObjects()
 {
 	TArray<AActor*> DestroyedObjects;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), TEXT("Destructible"), DestroyedObjects);
