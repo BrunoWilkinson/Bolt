@@ -22,6 +22,11 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 
 void UTP_WeaponComponent::Fire()
 {	
+	if (GetWorld()->GetTimerManager().IsTimerActive(FireRateTimerHandle))
+	{
+		return;
+	}
+
 	if (Ammo <= 0)
 	{
 		if (!GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
@@ -77,6 +82,8 @@ void UTP_WeaponComponent::Fire()
 		}
 	}
 
+	FTimerDelegate FireRateTimerDelegate;
+	GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, FireRateTimerDelegate, FireRate, false);
 	Ammo--;
 }
 

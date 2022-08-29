@@ -69,5 +69,7 @@ private:
 
 	FTimerHandle AmmoTimerHandle;
 
+	FTimerHandle FireRateTimerHandle;
+
 	void Reload();
 };
