@@ -3,6 +3,7 @@
 #include "BoltGameMode.h"
 #include "BoltCharacter.h"
 #include "AICharacter.h"
+#include "BoltPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -12,7 +13,6 @@ ABoltGameMode::ABoltGameMode()
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_FirstPersonCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
-
 }
 
 TEnumAsByte<ERating> ABoltGameMode::GetRating()
@@ -38,6 +38,17 @@ TEnumAsByte<ERating> ABoltGameMode::GetRating()
 		return ERating::D;
 	}
 	return ERating::F;
+}
+
+void ABoltGameMode::EndGame()
+{
+	ABoltPlayerController* PlayerController = Cast<ABoltPlayerController>(GetWorld()->GetFirstPlayerController());
+	if (PlayerController != nullptr)
+	{
+		PlayerController->ShowRatingScreen();
+		PlayerController->Pause();
+		PlayerController->bShowMouseCursor = true;
+	}
 }
 
 void ABoltGameMode::BeginPlay()

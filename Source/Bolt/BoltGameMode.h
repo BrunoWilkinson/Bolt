@@ -24,7 +24,17 @@ class ABoltGameMode : public AGameModeBase
 public:
 	ABoltGameMode();
 
+	UFUNCTION(BluePrintCallable)
 	TEnumAsByte<ERating> GetRating();
+
+	UFUNCTION(BlueprintCallable)
+	void EndGame();
+
+	UFUNCTION(BlueprintPure)
+	int32 EnemyCount();
+
+	UFUNCTION(BlueprintPure)
+	int32 DestructionCount();
 
 protected:
 	void BeginPlay() override;
@@ -52,10 +62,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Information)
 	float TimeCount;
-
-	int32 EnemyCount();
-
-	int32 DestructionCount();
 };
 
 

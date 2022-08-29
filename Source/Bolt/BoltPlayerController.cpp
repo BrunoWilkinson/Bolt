@@ -14,3 +14,12 @@ void ABoltPlayerController::BeginPlay()
 		HUDScreen->AddToViewport();
 	}
 }
+
+void ABoltPlayerController::ShowRatingScreen()
+{
+	UUserWidget* RatingScreen = CreateWidget(this, RatingScreenClass);
+	if (RatingScreen != nullptr)
+	{
+		RatingScreen->AddToViewport();
+	}
+}

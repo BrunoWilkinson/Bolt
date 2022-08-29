@@ -14,12 +14,18 @@ class BOLT_API ABoltPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	void ShowRatingScreen();
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> HUDScreenClass;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> RatingScreenClass;
 
 	UPROPERTY()
 	UUserWidget* HUDScreen;
