@@ -14,6 +14,7 @@ class UAnimMontage;
 class USoundBase;
 class AWeapon;
 class UHealthComponent;
+class USpellComponent;
 
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
@@ -56,6 +57,9 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
+
+	UFUNCTION(BlueprintPure)
+	USpellComponent* GetSpellComponent() const { return SpellComponent; }
 
 	UFUNCTION(BlueprintPure)
 	AWeapon* GetWeapon() const { return Weapon; }
@@ -120,6 +124,9 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	UHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	USpellComponent* SpellComponent;
 
 	AWeapon* Weapon;
 };

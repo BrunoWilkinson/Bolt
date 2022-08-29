@@ -4,6 +4,7 @@
 #include "TP_WeaponComponent.h"
 #include "Weapon.h"
 #include "HealthComponent.h"
+#include "SpellComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -38,6 +39,7 @@ ABoltCharacter::ABoltCharacter()
 	Mesh1P->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+	SpellComponent = CreateDefaultSubobject<USpellComponent>(TEXT("Spell Component"));
 }
 
 void ABoltCharacter::BeginPlay()

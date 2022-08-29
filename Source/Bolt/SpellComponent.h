@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Fire();
 
+	UFUNCTION(BlueprintPure)
+	FTimerHandle GetCooldownTimerHandle() const { return CooldownTimerHandle; }
+
 protected:
 	virtual void BeginPlay();
 	/** Ends gameplay for this component. */
@@ -47,6 +50,11 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	float Cooldown = 3.0f;
+
 	/** The Character holding this weapon*/
 	ABoltCharacter* Character;
+
+	FTimerHandle CooldownTimerHandle;
 };

@@ -26,6 +26,11 @@ void USpellComponent::BeginPlay()
 
 void USpellComponent::Fire()
 {
+	if (GetWorld()->GetTimerManager().IsTimerActive(CooldownTimerHandle))
+	{
+		return;
+	}
+
 	if (Character == nullptr || Character->GetController() == nullptr)
 	{
 		return;
@@ -72,6 +77,9 @@ void USpellComponent::Fire()
 			World->SpawnActor<AFieldSystemActor>(FieldSystemActorClass, Location, HitResult.Location.Rotation(), ActorSpawnParams);
 		}
 	}
+
+	FTimerDelegate CooldownTimerDelegate;
+	GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, CooldownTimerDelegate, Cooldown, false);
 }
 
 void USpellComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
