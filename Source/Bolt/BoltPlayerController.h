@@ -17,6 +17,8 @@ class BOLT_API ABoltPlayerController : public APlayerController
 public:
 	void ShowRatingScreen();
 
+	void ShowGameOverScreen();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -26,6 +28,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> RatingScreenClass;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> GameOverScreenClass;
 
 	UPROPERTY()
 	UUserWidget* HUDScreen;

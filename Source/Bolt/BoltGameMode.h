@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "BoltGameMode.generated.h"
 
+class UHealthComponent;
+
 UENUM()
 enum ERating
 {
@@ -30,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EndGame();
 
+	UFUNCTION(BlueprintCallable)
+	void GameOver();
+
 	UFUNCTION(BlueprintPure)
 	int32 GetTotalEnemiesKilled();
 
@@ -38,6 +43,9 @@ public:
 
 protected:
 	void BeginPlay() override;
+
+	UFUNCTION()
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category=Gameplay)
@@ -51,6 +59,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 	float EnemyMultiplier = 1.0f;
+
+	UHealthComponent* PlayerHealthComponent;
 
 	int32 InitialTotalEnemies;
 

@@ -23,3 +23,12 @@ void ABoltPlayerController::ShowRatingScreen()
 		RatingScreen->AddToViewport();
 	}
 }
+
+void ABoltPlayerController::ShowGameOverScreen()
+{
+	UUserWidget* GameOverScreen = CreateWidget(this, GameOverScreenClass);
+	if (GameOverScreen != nullptr)
+	{
+		GameOverScreen->AddToViewport();
+	}
+}

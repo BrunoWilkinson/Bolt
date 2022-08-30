@@ -3,6 +3,7 @@
 #include "BoltGameMode.h"
 #include "BoltCharacter.h"
 #include "AICharacter.h"
+#include "HealthComponent.h"
 #include "BoltPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
@@ -13,6 +14,22 @@ ABoltGameMode::ABoltGameMode()
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_FirstPersonCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
+}
+
+void ABoltGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InitialTotalEnemies = GetTotalEnemies();
+	InitialTotalDestructibleObjects = GetTotalDestructibleObjects();
+
+	ABoltCharacter* PlayerCharacter = Cast<ABoltCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if (PlayerCharacter != nullptr)
+	{
+		PlayerHealthComponent = PlayerCharacter->GetHealthComponent();
+		PlayerHealthComponent->OnDeath.AddDynamic(this, &ABoltGameMode::GameOver);
+	}
 }
 
 TEnumAsByte<ERating> ABoltGameMode::GetRating()
@@ -41,7 +58,7 @@ TEnumAsByte<ERating> ABoltGameMode::GetRating()
 
 void ABoltGameMode::EndGame()
 {
-	ABoltPlayerController* PlayerController = Cast<ABoltPlayerController>(GetWorld()->GetFirstPlayerController());
+	ABoltPlayerController* PlayerController = Cast<ABoltPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (PlayerController != nullptr)
 	{
 		PlayerController->ShowRatingScreen();
@@ -50,12 +67,15 @@ void ABoltGameMode::EndGame()
 	}
 }
 
-void ABoltGameMode::BeginPlay()
+void ABoltGameMode::GameOver()
 {
-	Super::BeginPlay();
-
-	InitialTotalEnemies = GetTotalEnemies();
-	InitialTotalDestructibleObjects = GetTotalDestructibleObjects();
+	ABoltPlayerController* PlayerController = Cast<ABoltPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PlayerController != nullptr)
+	{
+		PlayerController->ShowGameOverScreen();
+		PlayerController->Pause();
+		PlayerController->bShowMouseCursor = true;
+	}
 }
 
 int32 ABoltGameMode::GetTotalEnemiesKilled()
@@ -80,4 +100,9 @@ int32 ABoltGameMode::GetTotalDestructibleObjects()
 	TArray<AActor*> DestroyedObjects;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), TEXT("Destructible"), DestroyedObjects);
 	return DestroyedObjects.Num();
+}
+
+void ABoltGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	PlayerHealthComponent->OnDeath.RemoveDynamic(this, &ABoltGameMode::GameOver);
 }
