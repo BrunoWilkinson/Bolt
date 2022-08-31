@@ -5,6 +5,7 @@
 #include "HealthComponent.h"
 #include "BoltCharacter.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAICharacter::AAICharacter()
@@ -42,6 +43,11 @@ void AAICharacter::Shoot()
 	if (AnimInstance != nullptr && FireAnimation != nullptr)
 	{
 		AnimInstance->Montage_Play(FireAnimation, 1.f);
+	}
+
+	if (FireSound != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}
 
 	FVector Start = GetActorLocation() + GetActorRotation().RotateVector(MuzzleOffset);

@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	UAnimMontage* DeathAnimation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	USoundBase* FireSound;
+
 	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
