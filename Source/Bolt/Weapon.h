@@ -27,6 +27,7 @@ public:
 	// Sets default values for this actor's properties
 	AWeapon();
 
+
 public:
 	UFUNCTION(BlueprintPure)
 	UTP_PickUpComponent* GetPickUpComponent() const { return PickUpComponent; };

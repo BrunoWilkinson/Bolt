@@ -7,6 +7,7 @@
 #include "TP_WeaponComponent.generated.h"
 
 class ABoltCharacter;
+class AWeapon;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BOLT_API UTP_WeaponComponent : public UActorComponent
@@ -21,6 +22,12 @@ public:
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	UAnimMontage* FireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	UParticleSystem* FireParticles;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	UParticleSystem* ImpactParticles;
 
 	/** Gun muzzle's offset from the characters location */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
@@ -66,6 +73,8 @@ private:
 
 	/** The Character holding this weapon*/
 	ABoltCharacter* Character;
+
+	AWeapon* Weapon;
 
 	FTimerHandle AmmoTimerHandle;
 

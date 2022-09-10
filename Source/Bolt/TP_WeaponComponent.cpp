@@ -5,7 +5,7 @@
 #include "BoltCharacter.h"
 #include "AICharacter.h"
 #include "HealthComponent.h"
-#include "DrawDebugHelpers.h"
+#include "Weapon.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -17,6 +17,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 	LineTraceDistance = FVector(500.0f, 0.0f, 10.0f);
 	Ammo = MaxAmmo;
+	Weapon = Cast<AWeapon>(GetOwner());
 }
 
 
@@ -58,19 +59,26 @@ void UTP_WeaponComponent::Fire()
 		}
 	}
 
+	if (FireParticles != nullptr && Weapon != nullptr)
+	{
+		UGameplayStatics::SpawnEmitterAttached(FireParticles, Weapon->GetMeshComponent(), TEXT("Muzzle"));
+	}
+
 	APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
 	const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
 
 	FVector Start = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
 	FVector End = Start + SpawnRotation.RotateVector(LineTraceDistance);
 
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 3.0f, 0, 2.0f);
-
 	FHitResult HitResult;
 	bool HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel3);
 
 	if (HasHit)
 	{
+		if (ImpactParticles != nullptr)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, HitResult.ImpactPoint, HitResult.Location.Rotation());
+		}
 		AAICharacter* AICharacter = Cast<AAICharacter>(HitResult.GetActor());
 		if (AICharacter != nullptr)
 		{
