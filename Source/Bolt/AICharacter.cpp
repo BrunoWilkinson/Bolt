@@ -4,7 +4,6 @@
 #include "AICharacter.h"
 #include "HealthComponent.h"
 #include "BoltCharacter.h"
-#include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -50,16 +49,23 @@ void AAICharacter::Shoot()
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}
 
+	if (FireParticles != nullptr)
+	{
+		UGameplayStatics::SpawnEmitterAttached(FireParticles, GetMesh(), TEXT("Muzzle_01"));
+	}
+
 	FVector Start = GetActorLocation() + GetActorRotation().RotateVector(MuzzleOffset);
 	FVector End = Start + GetActorRotation().RotateVector(LineTraceDistance);
-
-	DrawDebugLine(GetWorld(), Start, End, FColor::Cyan, false, 3.0f, 0, 2.0f);
 
 	FHitResult HitResult;
 	bool HasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel2);
 
 	if (HasHit)
 	{
+		if (ImpactParticles != nullptr)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, HitResult.ImpactPoint, HitResult.Location.Rotation());
+		}
 		ABoltCharacter* Player = Cast<ABoltCharacter>(HitResult.GetActor());
 		if (Player != nullptr)
 		{
