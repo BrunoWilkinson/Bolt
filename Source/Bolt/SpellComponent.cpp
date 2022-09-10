@@ -2,7 +2,6 @@
 
 #include "SpellComponent.h"
 #include "BoltCharacter.h"
-#include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -42,17 +41,6 @@ void USpellComponent::Fire()
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
 	}
 
-	// Try and play a firing animation if specified
-	if (FireAnimation != nullptr)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}
-
 	UWorld* World = GetWorld();
 
 	if (World != nullptr)
@@ -63,8 +51,6 @@ void USpellComponent::Fire()
 		FVector Start = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
 		FVector End = Start + SpawnRotation.RotateVector(LineTraceDistance);
 
-		DrawDebugLine(World, Start, End, FColor::Blue, false, 3.0f, 0, 2.0f);
-
 		FHitResult HitResult;
 		bool HasHit = World->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel4);
 
@@ -73,7 +59,11 @@ void USpellComponent::Fire()
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			FVector Location = HitResult.ImpactNormal + HitResult.Location;
-			DrawDebugSphere(World, Location, 20.0f, 20, FColor::Purple, false, 3.0f, 0, 2.0f);
+			if (FireParticles != nullptr && ImpactParticles != nullptr)
+			{
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FireParticles, Start, Start.Rotation());
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, Location, HitResult.Location.Rotation());
+			}
 			World->SpawnActor<AFieldSystemActor>(FieldSystemActorClass, Location, HitResult.Location.Rotation(), ActorSpawnParams);
 			HitResult.GetActor()->SetLifeSpan(SpanLifeAfterImpact);
 		}
