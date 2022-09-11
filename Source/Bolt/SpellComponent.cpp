@@ -61,7 +61,7 @@ void USpellComponent::Fire()
 			FVector Location = HitResult.ImpactNormal + HitResult.Location;
 			if (FireParticles != nullptr && ImpactParticles != nullptr)
 			{
-				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FireParticles, Start, Start.Rotation());
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FireParticles, Start, SpawnRotation);
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, Location, HitResult.Location.Rotation());
 			}
 			World->SpawnActor<AFieldSystemActor>(FieldSystemActorClass, Location, HitResult.Location.Rotation(), ActorSpawnParams);
