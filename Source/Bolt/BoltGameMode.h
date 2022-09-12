@@ -29,6 +29,9 @@ public:
 	UFUNCTION(BluePrintCallable)
 	TEnumAsByte<ERating> GetRating();
 
+	UFUNCTION(BluePrintCallable)
+	float GetRawRating();
+
 	UFUNCTION(BlueprintCallable)
 	void EndGame();
 

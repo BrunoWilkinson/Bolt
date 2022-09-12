@@ -27,12 +27,12 @@ void ALoginActor::OnSubmitScoreSuccess(const PlayFab::ClientModels::FUpdatePlaye
     UE_LOG(LogTemp, Log, TEXT("PlayFab: Submit Score with success"));
 }
 
-void ALoginActor::SendRating(int64 Value)
+void ALoginActor::SubmitScore(float Score)
 {
     PlayFab::ClientModels::FUpdatePlayerStatisticsRequest request;
     PlayFab::ClientModels::FStatisticUpdate PlayerValue;
     PlayerValue.StatisticName = TEXT("Rating");
-    PlayerValue.Value = Value;
+    PlayerValue.Value = Score;
     request.Statistics.Add(PlayerValue);
 
     clientAPI->UpdatePlayerStatistics(request, 

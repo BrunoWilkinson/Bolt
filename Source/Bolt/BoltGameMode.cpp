@@ -34,9 +34,7 @@ void ABoltGameMode::BeginPlay()
 
 TEnumAsByte<ERating> ABoltGameMode::GetRating()
 {
-	float TimeScore = 50 * 100 / GetWorld()->GetTimeSeconds();
-	float Rating = TimeScore * TimeMultiplier + GetTotalDestroyedObjects() * DestructionMultiplier + GetTotalEnemiesKilled() * EnemyMultiplier;
-	int32 RatingPercentage = (Rating / MaxRating) * 100;
+	int32 RatingPercentage = (GetRawRating() / MaxRating) * 100;
 	if (RatingPercentage >= 90)
 	{
 		return ERating::A;
@@ -54,6 +52,12 @@ TEnumAsByte<ERating> ABoltGameMode::GetRating()
 		return ERating::D;
 	}
 	return ERating::F;
+}
+
+float ABoltGameMode::GetRawRating()
+{
+	float TimeScore = 50 * 100 / GetWorld()->GetTimeSeconds();
+	return TimeScore * TimeMultiplier + GetTotalDestroyedObjects() * DestructionMultiplier + GetTotalEnemiesKilled() * EnemyMultiplier;
 }
 
 void ABoltGameMode::EndGame()

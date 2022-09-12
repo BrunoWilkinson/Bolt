@@ -20,7 +20,9 @@ public:
 	void OnLoginSuccess(const PlayFab::ClientModels::FLoginResult& Result) const;
 	void OnSubmitScoreSuccess(const PlayFab::ClientModels::FUpdatePlayerStatisticsResult& Result) const;
 	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
-	void SendRating(int64 Value);
+
+	UFUNCTION(BluePrintCallable)
+	void SubmitScore(float Score);
 
 protected:
 	// Called when the game starts or when spawned
