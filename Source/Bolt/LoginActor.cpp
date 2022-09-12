@@ -12,14 +12,33 @@ ALoginActor::ALoginActor()
 
 }
 
-void ALoginActor::OnSuccess(const PlayFab::ClientModels::FLoginResult& Result) const
+void ALoginActor::OnLoginSuccess(const PlayFab::ClientModels::FLoginResult& Result) const
 {
-    UE_LOG(LogTemp, Log, TEXT("Congratulations, you made your first successful API call!"));
+    UE_LOG(LogTemp, Log, TEXT("PlayFab: Login with success"));
 }
 
 void ALoginActor::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
-    UE_LOG(LogTemp, Error, TEXT("Something went wrong with your first API call.\nHere's some debug information:\n%s"), *ErrorResult.GenerateErrorReport());
+    UE_LOG(LogTemp, Error, TEXT("PlayFab: Something went wrong. %s"), *ErrorResult.GenerateErrorReport());
+}
+
+void ALoginActor::OnSubmitScoreSuccess(const PlayFab::ClientModels::FUpdatePlayerStatisticsResult& Result) const
+{
+    UE_LOG(LogTemp, Log, TEXT("PlayFab: Submit Score with success"));
+}
+
+void ALoginActor::SendRating(int64 Value)
+{
+    PlayFab::ClientModels::FUpdatePlayerStatisticsRequest request;
+    PlayFab::ClientModels::FStatisticUpdate PlayerValue;
+    PlayerValue.StatisticName = TEXT("Rating");
+    PlayerValue.Value = Value;
+    request.Statistics.Add(PlayerValue);
+
+    clientAPI->UpdatePlayerStatistics(request, 
+        PlayFab::UPlayFabClientAPI::FUpdatePlayerStatisticsDelegate::CreateUObject(this, &ALoginActor::OnSubmitScoreSuccess),
+        PlayFab::FPlayFabErrorDelegate::CreateUObject(this, &ALoginActor::OnError)
+    );
 }
 
 // Called when the game starts or when spawned
@@ -38,10 +57,9 @@ void ALoginActor::BeginPlay()
     UE_LOG(LogTemp, Log, TEXT("PlayFab CustomID: %s"), *request.CustomId);
 
     clientAPI->LoginWithCustomID(request,
-        PlayFab::UPlayFabClientAPI::FLoginWithCustomIDDelegate::CreateUObject(this, &ALoginActor::OnSuccess),
+        PlayFab::UPlayFabClientAPI::FLoginWithCustomIDDelegate::CreateUObject(this, &ALoginActor::OnLoginSuccess),
         PlayFab::FPlayFabErrorDelegate::CreateUObject(this, &ALoginActor::OnError)
     );
-	
 }
 
 // Called every frame
@@ -53,7 +71,6 @@ void ALoginActor::Tick(float DeltaTime)
 
 FString ALoginActor::RandomString()
 {
-    // 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
     FString Alphabet = TEXT("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
     FString RandomString;
 

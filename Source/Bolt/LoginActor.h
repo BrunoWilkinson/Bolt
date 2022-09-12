@@ -17,8 +17,10 @@ class BOLT_API ALoginActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ALoginActor();
-	void OnSuccess(const PlayFab::ClientModels::FLoginResult& Result) const;
+	void OnLoginSuccess(const PlayFab::ClientModels::FLoginResult& Result) const;
+	void OnSubmitScoreSuccess(const PlayFab::ClientModels::FUpdatePlayerStatisticsResult& Result) const;
 	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
+	void SendRating(int64 Value);
 
 protected:
 	// Called when the game starts or when spawned
