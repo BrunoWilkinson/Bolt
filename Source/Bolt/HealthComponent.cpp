@@ -3,11 +3,6 @@
 
 #include "HealthComponent.h"
 
-UHealthComponent::UHealthComponent()
-{
-	Health = MaxHealth;
-}
-
 bool UHealthComponent::IsDead() const
 {
 	if (Health <= 0)
@@ -24,4 +19,10 @@ void UHealthComponent::ApplyDamage(float Value)
 	{
 		OnDeath.Broadcast();
 	}
+}
+
+void UHealthComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	Health = MaxHealth;
 }

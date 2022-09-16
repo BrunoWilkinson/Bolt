@@ -14,10 +14,6 @@ class BOLT_API UHealthComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UHealthComponent();
-
-public:	
 	UFUNCTION(BlueprintPure)
 	float GetHealth() const { return Health; }
 
@@ -28,6 +24,9 @@ public:
 	FOnDeath OnDeath;
 
 	void ApplyDamage(float Value);
+
+protected:
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(EditAnywhere, Category = Values)
