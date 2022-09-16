@@ -112,6 +112,10 @@ void UTP_WeaponComponent::Reload()
 {
 	if (!GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
 	{
+		if (ReloadSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, Character->GetActorLocation());
+		}
 		GetWorld()->GetTimerManager().SetTimer(AmmoTimerHandle, this, &UTP_WeaponComponent::Reloading, ReloadTime, false);
 	}
 }
