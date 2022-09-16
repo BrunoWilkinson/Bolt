@@ -20,6 +20,7 @@ class USpellComponent;
 // It is declared as dynamic so it can be accessed also in Blueprints
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseItem);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseSpell);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReload);
 
 UCLASS(config=Game)
 class ABoltCharacter : public ACharacter
@@ -55,6 +56,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnUseSpell OnUseSpell;
 
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FOnReload OnUseReload;
+
 	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
@@ -70,6 +74,8 @@ protected:
 	void OnPrimaryAction();
 
 	void OnSpellAction();
+
+	void OnReload();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

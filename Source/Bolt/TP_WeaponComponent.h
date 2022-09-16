@@ -47,6 +47,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void Reload();
+
 	UFUNCTION(BlueprintPure)
 	float GetAmmo() const { return Ammo; }
 
@@ -80,5 +83,5 @@ private:
 
 	FTimerHandle FireRateTimerHandle;
 
-	void Reload();
+	void Reloading();
 };

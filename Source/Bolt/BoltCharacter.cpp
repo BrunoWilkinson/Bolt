@@ -77,6 +77,7 @@ void ABoltCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	// Bind fire event
 	PlayerInputComponent->BindAction("PrimaryAction", IE_Pressed, this, &ABoltCharacter::OnPrimaryAction);
 	PlayerInputComponent->BindAction("Spell", IE_Pressed, this, &ABoltCharacter::OnSpellAction);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ABoltCharacter::OnReload);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -103,6 +104,11 @@ void ABoltCharacter::OnPrimaryAction()
 void ABoltCharacter::OnSpellAction()
 {
 	OnUseSpell.Broadcast();
+}
+
+void ABoltCharacter::OnReload()
+{
+	OnUseReload.Broadcast();
 }
 
 void ABoltCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location)

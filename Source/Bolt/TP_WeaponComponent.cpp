@@ -23,17 +23,15 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 
 void UTP_WeaponComponent::Fire()
 {	
-	if (GetWorld()->GetTimerManager().IsTimerActive(FireRateTimerHandle))
+	if (GetWorld()->GetTimerManager().IsTimerActive(FireRateTimerHandle) || 
+		GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
 	{
 		return;
 	}
 
 	if (Ammo <= 0)
 	{
-		if (!GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
-		{
-			GetWorld()->GetTimerManager().SetTimer(AmmoTimerHandle, this, &UTP_WeaponComponent::Reload, ReloadTime, false);
-		}
+		Reload();
 		return;
 	}
 
@@ -101,12 +99,21 @@ void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	{
 		// Unregister from the OnUseItem Event
 		Character->OnUseItem.RemoveDynamic(this, &UTP_WeaponComponent::Fire);
+		Character->OnUseReload.RemoveDynamic(this, &UTP_WeaponComponent::Reload);
 	}
+}
+
+void UTP_WeaponComponent::Reloading()
+{
+	Ammo = MaxAmmo;
 }
 
 void UTP_WeaponComponent::Reload()
 {
-	Ammo = MaxAmmo;
+	if (!GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
+	{
+		GetWorld()->GetTimerManager().SetTimer(AmmoTimerHandle, this, &UTP_WeaponComponent::Reloading, ReloadTime, false);
+	}
 }
 
 void UTP_WeaponComponent::AttachWeapon(ABoltCharacter* TargetCharacter)
@@ -120,6 +127,7 @@ void UTP_WeaponComponent::AttachWeapon(ABoltCharacter* TargetCharacter)
 
 		// Register so that Fire is called every time the character tries to use the item being held
 		Character->OnUseItem.AddDynamic(this, &UTP_WeaponComponent::Fire);
+		Character->OnUseReload.AddDynamic(this, &UTP_WeaponComponent::Reload);
 	}
 }
 
