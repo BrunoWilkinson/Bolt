@@ -23,6 +23,7 @@ void AAICharacter::BeginPlay()
 	{
 		HealthComponent->OnDeath.AddDynamic(this, &AAICharacter::Death);
 	}
+	AnimInstance = GetMesh()->GetAnimInstance();
 }
 
 // Called every frame
@@ -38,12 +39,6 @@ void AAICharacter::SetHasSeenPlayer(bool bValue)
 
 void AAICharacter::Shoot()
 {
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (AnimInstance != nullptr && FireAnimation != nullptr)
-	{
-		AnimInstance->Montage_Play(FireAnimation, 1.f);
-	}
-
 	if (FireSound != nullptr)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
@@ -53,6 +48,30 @@ void AAICharacter::Shoot()
 	{
 		UGameplayStatics::SpawnEmitterAttached(FireParticles, GetMesh(), TEXT("Muzzle_01"));
 	}
+
+	if (AnimInstance != nullptr && FireAnimation != nullptr)
+	{
+		AnimInstance->Montage_Play(FireAnimation, 1.f);
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(FireTimerHandler, this, &AAICharacter::DrawTraceLine, 0.5f, false);
+}
+
+void AAICharacter::Death()
+{
+	SetActorEnableCollision(false);
+	DetachFromControllerPendingDestroy();
+	if (AnimInstance != nullptr && DeathAnimation != nullptr)
+	{
+		AnimInstance->Montage_Play(DeathAnimation, 1.f);
+	}
+	SetLifeSpan(LifeSpan);
+}
+
+void AAICharacter::DrawTraceLine()
+{
+	UE_LOG(LogTemp, Warning, TEXT("IsActive: %s"), AnimInstance->Montage_IsActive(FireAnimation) ? TEXT("true") : TEXT("false"));
+	UE_LOG(LogTemp, Warning, TEXT("IsPlaying: %s"), AnimInstance->Montage_IsPlaying(FireAnimation) ? TEXT("true") : TEXT("false"));
 
 	FVector Start = GetActorLocation() + GetActorRotation().RotateVector(MuzzleOffset);
 	FVector End = Start + GetActorRotation().RotateVector(LineTraceDistance);
@@ -76,18 +95,6 @@ void AAICharacter::Shoot()
 			}
 		}
 	}
-}
-
-void AAICharacter::Death()
-{
-	SetActorEnableCollision(false);
-	DetachFromControllerPendingDestroy();
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (AnimInstance != nullptr && DeathAnimation != nullptr)
-	{
-		AnimInstance->Montage_Play(DeathAnimation, 1.f);
-	}
-	SetLifeSpan(LifeSpan);
 }
 
 void AAICharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)

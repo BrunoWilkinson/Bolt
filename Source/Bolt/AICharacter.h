@@ -73,4 +73,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 	float LifeSpan = 5.0f;
+
+	UAnimInstance* AnimInstance;
+
+	FTimerHandle FireTimerHandler;
+
+	void DrawTraceLine();
 };
