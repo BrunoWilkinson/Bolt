@@ -54,7 +54,7 @@ void AAICharacter::Shoot()
 		AnimInstance->Montage_Play(FireAnimation, 1.f);
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(FireTimerHandler, this, &AAICharacter::DrawTraceLine, 0.5f, false);
+	DrawTraceLine();
 }
 
 void AAICharacter::Death()
@@ -70,9 +70,6 @@ void AAICharacter::Death()
 
 void AAICharacter::DrawTraceLine()
 {
-	UE_LOG(LogTemp, Warning, TEXT("IsActive: %s"), AnimInstance->Montage_IsActive(FireAnimation) ? TEXT("true") : TEXT("false"));
-	UE_LOG(LogTemp, Warning, TEXT("IsPlaying: %s"), AnimInstance->Montage_IsPlaying(FireAnimation) ? TEXT("true") : TEXT("false"));
-
 	FVector Start = GetActorLocation() + GetActorRotation().RotateVector(MuzzleOffset);
 	FVector End = Start + GetActorRotation().RotateVector(LineTraceDistance);
 

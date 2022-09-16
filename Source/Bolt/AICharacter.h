@@ -76,7 +76,5 @@ private:
 
 	UAnimInstance* AnimInstance;
 
-	FTimerHandle FireTimerHandler;
-
 	void DrawTraceLine();
 };

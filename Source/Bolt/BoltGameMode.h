@@ -7,6 +7,7 @@
 #include "BoltGameMode.generated.h"
 
 class UHealthComponent;
+class ABoltPlayerController;
 
 UENUM()
 enum ERating
@@ -64,6 +65,8 @@ private:
 	float EnemyMultiplier = 1.0f;
 
 	UHealthComponent* PlayerHealthComponent;
+
+	ABoltPlayerController* PlayerController;
 
 	int32 InitialTotalEnemies;
 

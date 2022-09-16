@@ -24,11 +24,13 @@ void ABoltGameMode::BeginPlay()
 	InitialTotalDestructibleObjects = GetTotalDestructibleObjects();
 
 	ABoltCharacter* PlayerCharacter = Cast<ABoltCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	PlayerController = Cast<ABoltPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 	if (PlayerCharacter != nullptr)
 	{
 		PlayerHealthComponent = PlayerCharacter->GetHealthComponent();
 		PlayerHealthComponent->OnDeath.AddDynamic(this, &ABoltGameMode::GameOver);
+		PlayerController->bShowMouseCursor = false;
 	}
 }
 
@@ -62,7 +64,6 @@ float ABoltGameMode::GetRawRating()
 
 void ABoltGameMode::EndGame()
 {
-	ABoltPlayerController* PlayerController = Cast<ABoltPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (PlayerController != nullptr)
 	{
 		PlayerController->ShowRatingScreen();
@@ -73,7 +74,6 @@ void ABoltGameMode::EndGame()
 
 void ABoltGameMode::GameOver()
 {
-	ABoltPlayerController* PlayerController = Cast<ABoltPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (PlayerController != nullptr)
 	{
 		PlayerController->ShowGameOverScreen();
