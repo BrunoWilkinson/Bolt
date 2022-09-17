@@ -80,7 +80,7 @@ void ABoltGameMode::GameOver()
 				PlayerController->ShowGameOverScreen();
 				PlayerController->Pause();
 				PlayerController->bShowMouseCursor = true;
-			}, 1.f, false);
+			}, 0.5f, false);
 	}
 }
 
