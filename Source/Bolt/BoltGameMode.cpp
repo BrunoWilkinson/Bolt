@@ -30,7 +30,6 @@ void ABoltGameMode::BeginPlay()
 	{
 		PlayerHealthComponent = PlayerCharacter->GetHealthComponent();
 		PlayerHealthComponent->OnDeath.AddDynamic(this, &ABoltGameMode::GameOver);
-		PlayerController->bShowMouseCursor = false;
 	}
 }
 
