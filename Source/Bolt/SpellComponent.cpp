@@ -54,14 +54,18 @@ void USpellComponent::Fire()
 		FHitResult HitResult;
 		bool HasHit = World->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel4);
 
+		if (FireParticles != nullptr)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FireParticles, Start, SpawnRotation);
+		}
+
 		if (HasHit)
 		{
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			FVector Location = HitResult.ImpactNormal + HitResult.Location;
-			if (FireParticles != nullptr && ImpactParticles != nullptr)
+			if (ImpactParticles != nullptr)
 			{
-				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FireParticles, Start, SpawnRotation);
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, Location, HitResult.Location.Rotation());
 			}
 			World->SpawnActor<AFieldSystemActor>(FieldSystemActorClass, Location, HitResult.Location.Rotation(), ActorSpawnParams);
