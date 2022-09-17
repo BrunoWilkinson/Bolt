@@ -76,9 +76,12 @@ void ABoltGameMode::GameOver()
 {
 	if (PlayerController != nullptr)
 	{
-		PlayerController->ShowGameOverScreen();
-		PlayerController->Pause();
-		PlayerController->bShowMouseCursor = true;
+		GetWorld()->GetTimerManager().SetTimer(GameOverScreenTimerHandle, [&]()
+			{
+				PlayerController->ShowGameOverScreen();
+				PlayerController->Pause();
+				PlayerController->bShowMouseCursor = true;
+			}, 1.f, false);
 	}
 }
 

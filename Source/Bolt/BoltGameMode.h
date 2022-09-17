@@ -75,6 +75,8 @@ private:
 	int32 GetTotalEnemies();
 
 	int32 GetTotalDestructibleObjects();
+
+	FTimerHandle GameOverScreenTimerHandle;
 };
 
 
