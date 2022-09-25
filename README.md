@@ -15,4 +15,14 @@ itch.io:
 
 https://brunowilkinson.itch.io/bolt
 
+Technical Recap:
+
+- Build a custom health component
+- AI logic using UE behaviour system
+- Build a custom spell component to trigger the UE chaos system
+- Basic trace line mechanics
+- PlayFab integration
+- Level Design
+- Basic UI logic
+
 v1.0.0
