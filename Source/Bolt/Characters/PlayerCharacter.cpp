@@ -2,9 +2,9 @@
 
 
 #include "PlayerCharacter.h"
-#include "TP_WeaponComponent.h"
-#include "Weapon.h"
-#include "SpellComponent.h"
+#include "../TP_WeaponComponent.h"
+#include "../Weapon.h"
+#include "../SpellComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -59,42 +59,42 @@ void APlayerCharacter::BeginPlay()
 	}
 }
 
-void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* InputComponent)
+void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// Set up gameplay key bindings
-	check(InputComponent);
+	check(PlayerInputComponent);
 
 	// Bind jump events
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	// Bind fire event
-	InputComponent->BindAction("PrimaryAction", IE_Pressed, this, &APlayerCharacter::OnPrimaryAction);
-	InputComponent->BindAction("Spell", IE_Pressed, this, &APlayerCharacter::OnSpellAction);
-	InputComponent->BindAction("Reload", IE_Pressed, this, &APlayerCharacter::OnReload);
+	PlayerInputComponent->BindAction("PrimaryAction", IE_Pressed, this, &APlayerCharacter::OnPrimaryAction);
+	PlayerInputComponent->BindAction("Spell", IE_Pressed, this, &APlayerCharacter::OnSpellAction);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &APlayerCharacter::OnReload);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(InputComponent);
 
 	// Bind movement events
-	InputComponent->BindAxis("Move Forward / Backward", this, &APlayerCharacter::MoveForward);
-	InputComponent->BindAxis("Move Right / Left", this, &APlayerCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &APlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("Move Right / Left", this, &APlayerCharacter::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "Mouse" versions handle devices that provide an absolute delta, such as a mouse.
 	// "Gamepad" versions are for devices that we choose to treat as a rate of change, such as an analog joystick
-	InputComponent->BindAxis("Turn Right / Left Mouse", this, &APawn::AddControllerYawInput);
-	InputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
-	InputComponent->BindAxis("Turn Right / Left Gamepad", this, &APlayerCharacter::TurnAtRate);
-	InputComponent->BindAxis("Look Up / Down Gamepad", this, &APlayerCharacter::LookUpAtRate);
+	PlayerInputComponent->BindAxis("Turn Right / Left Mouse", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("Turn Right / Left Gamepad", this, &APlayerCharacter::TurnAtRate);
+	PlayerInputComponent->BindAxis("Look Up / Down Gamepad", this, &APlayerCharacter::LookUpAtRate);
 }
 
-bool APlayerCharacter::EnableTouchscreenMovement(UInputComponent* InputComponent)
+bool APlayerCharacter::EnableTouchscreenMovement(UInputComponent* PlayerInputComponent)
 {
 	if (FPlatformMisc::SupportsTouchInput() || GetDefault<UInputSettings>()->bUseMouseForTouch)
 	{
-		InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &APlayerCharacter::BeginTouch);
-		InputComponent->BindTouch(EInputEvent::IE_Released, this, &APlayerCharacter::EndTouch);
+		PlayerInputComponent->BindTouch(EInputEvent::IE_Pressed, this, &APlayerCharacter::BeginTouch);
+		PlayerInputComponent->BindTouch(EInputEvent::IE_Released, this, &APlayerCharacter::EndTouch);
 
 		return true;
 	}

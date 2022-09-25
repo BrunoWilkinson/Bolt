@@ -13,15 +13,13 @@ class BOLT_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
+public:	
 	ABaseCharacter();
 
-public:	
 	UFUNCTION(BlueprintPure)
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
-private:
+protected:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	UHealthComponent* HealthComponent;
 };
