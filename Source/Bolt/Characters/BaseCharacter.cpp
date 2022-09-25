@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "HealthComponent.h"
 #include "BaseCharacter.h"
+#include "../HealthComponent.h"
+
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()

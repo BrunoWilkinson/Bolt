@@ -13,14 +13,14 @@ class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
 class AWeapon;
-class UHealthComponent;
 class USpellComponent;
 
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseItem);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseSpell);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReload);
+// change the FR to F
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FROnUseItem);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FROnUseSpell);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FROnReload);
 
 UCLASS(config = Game)
 class BOLT_API APlayerCharacter : public ABaseCharacter
@@ -39,13 +39,13 @@ public:
 
 	/** Delegate to whom anyone can subscribe to receive this event */
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FOnUseItem OnUseItem;
+	FROnUseItem OnUseItem;
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FOnUseSpell OnUseSpell;
+	FROnUseSpell OnUseSpell;
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FOnReload OnUseReload;
+	FROnReload OnUseReload;
 
 	UFUNCTION(BlueprintPure)
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
@@ -113,9 +113,6 @@ protected:
 	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
 
 private:
-	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	UHealthComponent* HealthComponent;
-
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	USpellComponent* SpellComponent;
 
