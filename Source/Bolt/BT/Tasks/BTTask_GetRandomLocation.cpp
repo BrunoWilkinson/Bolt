@@ -2,8 +2,8 @@
 
 
 #include "BTTask_GetRandomLocation.h"
-#include "DrongoAIController.h"
-#include "AICharacter.h"
+#include "../../Controllers/BotController.h"
+#include "../../Characters/BotCharacter.h"
 #include "NavigationSystem.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
@@ -18,13 +18,13 @@ EBTNodeResult::Type UBTTask_GetRandomLocation::ExecuteTask(UBehaviorTreeComponen
 
 	if (OwnerComp.GetAIOwner() != nullptr)
 	{
-		AAICharacter* AICharacter = Cast<AAICharacter>(OwnerComp.GetAIOwner()->GetPawn());
+		ABotCharacter* BotCharacter = Cast<ABotCharacter>(OwnerComp.GetAIOwner()->GetPawn());
 		UBlackboardComponent* BlackboardComponent = OwnerComp.GetBlackboardComponent();
-		if (AICharacter != nullptr && BlackboardComponent != nullptr)
+		if (BotCharacter != nullptr && BlackboardComponent != nullptr)
 		{
 			FNavLocation NavLocation;
 			UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent(GetWorld());
-			NavSys->GetRandomPointInNavigableRadius(AICharacter->GetActorLocation(), Radius, NavLocation);
+			NavSys->GetRandomPointInNavigableRadius(BotCharacter->GetActorLocation(), Radius, NavLocation);
 			BlackboardComponent->SetValueAsVector(TEXT("PatrolLocation"), NavLocation.Location);
 			return EBTNodeResult::Succeeded;
 		}

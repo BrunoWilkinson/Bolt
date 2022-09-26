@@ -2,7 +2,7 @@
 
 
 #include "BTService_PlayerLocationIfSeen.h"
-#include "AICharacter.h"
+#include "../../Characters/BotCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -19,7 +19,7 @@ void UBTService_PlayerLocationIfSeen::TickNode(UBehaviorTreeComponent& OwnerComp
 	UBlackboardComponent* BlackboardComponent = OwnerComp.GetBlackboardComponent();
 	if (Player != nullptr && AIController != nullptr && BlackboardComponent != nullptr)
 	{
-		AAICharacter* AICharacter = Cast<AAICharacter>(AIController->GetPawn());
+		ABotCharacter* AICharacter = Cast<ABotCharacter>(AIController->GetPawn());
 		if (AICharacter != nullptr)
 		{
 			if (AIController->LineOfSightTo(Player))

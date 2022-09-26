@@ -2,8 +2,8 @@
 
 
 #include "BTTask_Shoot.h"
-#include "DrongoAIController.h"
-#include "AICharacter.h"
+#include "../../Controllers/BotController.h"
+#include "../../Characters/BotCharacter.h"
 
 UBTTask_Shoot::UBTTask_Shoot()
 {
@@ -16,10 +16,10 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 
 	if (OwnerComp.GetAIOwner() != nullptr)
 	{
-		AAICharacter* AICharacter = Cast<AAICharacter>(OwnerComp.GetAIOwner()->GetPawn());
-		if (AICharacter != nullptr)
+		ABotCharacter* BotCharacter = Cast<ABotCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+		if (BotCharacter != nullptr)
 		{
-			AICharacter->Shoot();
+			BotCharacter->Shoot();
 			return EBTNodeResult::Succeeded;
 		}
 	}
