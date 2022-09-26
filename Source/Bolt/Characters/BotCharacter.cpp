@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BotCharacter.h"
-#include "../HealthComponent.h"
+#include "../Components/HealthComponent.h"
 #include "PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 

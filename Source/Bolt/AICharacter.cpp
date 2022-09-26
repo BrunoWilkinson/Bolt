@@ -2,7 +2,7 @@
 
 
 #include "AICharacter.h"
-#include "HealthComponent.h"
+#include "Components/HealthComponent.h"
 #include "BoltCharacter.h"
 #include "Kismet/GameplayStatics.h"
 

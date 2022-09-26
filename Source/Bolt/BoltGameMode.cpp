@@ -3,7 +3,7 @@
 #include "BoltGameMode.h"
 #include "BoltCharacter.h"
 #include "AICharacter.h"
-#include "HealthComponent.h"
+#include "Components/HealthComponent.h"
 #include "BoltPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
