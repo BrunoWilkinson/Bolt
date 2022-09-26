@@ -17,10 +17,9 @@ class USpellComponent;
 
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
-// change the FR to F
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FROnUseItem);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FROnUseSpell);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FROnReload);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseItem);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseSpell);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReload);
 
 UCLASS(config = Game)
 class BOLT_API APlayerCharacter : public ABaseCharacter
@@ -39,13 +38,13 @@ public:
 
 	/** Delegate to whom anyone can subscribe to receive this event */
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FROnUseItem OnUseItem;
+	FOnUseItem OnUseItem;
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FROnUseSpell OnUseSpell;
+	FOnUseSpell OnUseSpell;
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FROnReload OnUseReload;
+	FOnReload OnUseReload;
 
 	UFUNCTION(BlueprintPure)
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }

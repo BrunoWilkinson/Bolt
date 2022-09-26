@@ -9,8 +9,7 @@
 
 // Declaration of the delegate that will be called when someone picks this up
 // The character picking this up is the parameter sent with the notification
-// change FR to F
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FROnPickUp, APlayerCharacter*, PickUpCharacter);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickUp, APlayerCharacter*, PickUpCharacter);
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BOLT_API UPickUpComponent : public USphereComponent
@@ -23,7 +22,7 @@ public:
 
 	/** Delegate to whom anyone can subscribe to receive this event */
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FROnPickUp OnPickUp;
+	FOnPickUp OnPickUp;
 
 protected:
 	// Called when the game starts

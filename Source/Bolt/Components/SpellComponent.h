@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "SpellComponent.generated.h"
 
-class ABoltCharacter;
+class APlayerCharacter;
 class AFieldSystemActor;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -59,7 +59,7 @@ private:
 	float SpanLifeAfterImpact = 5.0f;
 
 	/** The Character holding this weapon*/
-	ABoltCharacter* Character;
+	APlayerCharacter* Character;
 
 	FTimerHandle CooldownTimerHandle;
 };
