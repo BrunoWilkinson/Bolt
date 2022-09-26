@@ -6,22 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
-class UTP_PickUpComponent;
-class UTP_WeaponComponent;
+class UPickUpComponent;
+class UWeaponComponent;
 
 UCLASS()
 class BOLT_API AWeapon : public AActor
 {
 	GENERATED_BODY()
-
-	UPROPERTY(VisibleAnywhere, Category = "Component")
-	UTP_PickUpComponent* PickUpComponent;
-
-	UPROPERTY(VisibleAnywhere, Category = "Component")
-	UTP_WeaponComponent* WeaponComponent;
-
-	UPROPERTY(VisibleAnywhere, Category = "Component")
-	USkeletalMeshComponent* MeshComponent;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -30,11 +21,21 @@ public:
 
 public:
 	UFUNCTION(BlueprintPure)
-	UTP_PickUpComponent* GetPickUpComponent() const { return PickUpComponent; };
+	UPickUpComponent* GetPickUpComponent() const { return PickUpComponent; };
 
 	UFUNCTION(BlueprintPure)
-	UTP_WeaponComponent* GetWeaponComponent() const { return WeaponComponent; };
+	UWeaponComponent* GetWeaponComponent() const { return WeaponComponent; };
 
 	UFUNCTION(BlueprintPure)
 	USkeletalMeshComponent* GetMeshComponent() const { return MeshComponent; };
+
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UPickUpComponent* PickUpComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UWeaponComponent* WeaponComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	USkeletalMeshComponent* MeshComponent;
 };
