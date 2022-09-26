@@ -4,7 +4,7 @@
 #include "BoltCharacter.h"
 #include "AICharacter.h"
 #include "Components/HealthComponent.h"
-#include "BoltPlayerController.h"
+#include "Controllers/BoltPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 
