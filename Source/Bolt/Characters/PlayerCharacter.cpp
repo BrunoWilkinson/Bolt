@@ -3,7 +3,7 @@
 
 #include "PlayerCharacter.h"
 #include "../TP_WeaponComponent.h"
-#include "../Weapon.h"
+#include "../Actors/Weapon.h"
 #include "../Components/SpellComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
@@ -49,7 +49,7 @@ void APlayerCharacter::BeginPlay()
 		Weapon = World->SpawnActor<AWeapon>(WeaponClass, GetActorLocation() + 100, GetActorRotation(), ActorSpawnParams);
 		if (Weapon != nullptr)
 		{
-			UTP_WeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();
+			UWeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();
 			if (WeaponComponent != nullptr)
 			{
 				// Change the type for the argument

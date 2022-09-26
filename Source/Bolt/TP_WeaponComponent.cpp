@@ -5,7 +5,7 @@
 #include "BoltCharacter.h"
 #include "AICharacter.h"
 #include "Components/HealthComponent.h"
-#include "Weapon.h"
+#include "Actors/Weapon.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"

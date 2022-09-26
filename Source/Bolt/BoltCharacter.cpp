@@ -1,8 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BoltCharacter.h"
-#include "TP_WeaponComponent.h"
-#include "Weapon.h"
+#include "Components/WeaponComponent.h"
+#include "Actors/Weapon.h"
 #include "Components/HealthComponent.h"
 #include "Components/SpellComponent.h"
 #include "Animation/AnimInstance.h"
@@ -54,10 +54,10 @@ void ABoltCharacter::BeginPlay()
 		Weapon = World->SpawnActor<AWeapon>(WeaponClass, GetActorLocation() + 100, GetActorRotation(), ActorSpawnParams);
 		if (Weapon != nullptr)
 		{
-			UTP_WeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();
+			UWeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();
 			if (WeaponComponent != nullptr)
 			{
-				WeaponComponent->AttachWeapon(this);
+				// WeaponComponent->AttachWeapon(this);
 			}
 		}
 	}
