@@ -1,17 +1,17 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TP_WeaponComponent.h"
-#include "BoltCharacter.h"
-#include "AICharacter.h"
-#include "Components/HealthComponent.h"
-#include "Weapon.h"
+#include "WeaponComponent.h"
+#include "../Characters/PlayerCharacter.h"
+#include "../Characters/BotCharacter.h"
+#include "../Components/HealthComponent.h"
+#include "../Weapon.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
-UTP_WeaponComponent::UTP_WeaponComponent()
+UWeaponComponent::UWeaponComponent()
 {
 	// Default offset from the character location for projectiles to spawn
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
@@ -20,10 +20,34 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 	Weapon = Cast<AWeapon>(GetOwner());
 }
 
+void UWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (Character != nullptr)
+	{
+		// Unregister from the OnUseItem Event
+		Character->OnUseItem.RemoveDynamic(this, &UWeaponComponent::Fire);
+		Character->OnUseReload.RemoveDynamic(this, &UWeaponComponent::Reload);
+	}
+}
 
-void UTP_WeaponComponent::Fire()
-{	
-	if (GetWorld()->GetTimerManager().IsTimerActive(FireRateTimerHandle) || 
+void UWeaponComponent::AttachWeapon(APlayerCharacter* TargetCharacter)
+{
+	Character = TargetCharacter;
+	if (Character != nullptr)
+	{
+		// Attach the weapon to the First Person Character
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+		GetOwner()->AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
+
+		// Register so that Fire is called every time the character tries to use the item being held
+		Character->OnUseItem.AddDynamic(this, &UWeaponComponent::Fire);
+		Character->OnUseReload.AddDynamic(this, &UWeaponComponent::Reload);
+	}
+}
+
+void UWeaponComponent::Fire()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(FireRateTimerHandle) ||
 		GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
 	{
 		return;
@@ -35,7 +59,7 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
-	if(Character == nullptr || Character->GetController() == nullptr)
+	if (Character == nullptr || Character->GetController() == nullptr)
 	{
 		return;
 	}
@@ -77,10 +101,10 @@ void UTP_WeaponComponent::Fire()
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, HitResult.ImpactPoint, HitResult.Location.Rotation());
 		}
-		AAICharacter* AICharacter = Cast<AAICharacter>(HitResult.GetActor());
-		if (AICharacter != nullptr)
+		ABotCharacter* BotCharacter = Cast<ABotCharacter>(HitResult.GetActor());
+		if (BotCharacter != nullptr)
 		{
-			UHealthComponent* HealthComponent = AICharacter->GetHealthComponent();
+			UHealthComponent* HealthComponent = BotCharacter->GetHealthComponent();
 			if (HealthComponent != nullptr)
 			{
 				HealthComponent->ApplyDamage(Damage);
@@ -93,22 +117,7 @@ void UTP_WeaponComponent::Fire()
 	Ammo--;
 }
 
-void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	if(Character != nullptr)
-	{
-		// Unregister from the OnUseItem Event
-		Character->OnUseItem.RemoveDynamic(this, &UTP_WeaponComponent::Fire);
-		Character->OnUseReload.RemoveDynamic(this, &UTP_WeaponComponent::Reload);
-	}
-}
-
-void UTP_WeaponComponent::Reloading()
-{
-	Ammo = MaxAmmo;
-}
-
-void UTP_WeaponComponent::Reload()
+void UWeaponComponent::Reload()
 {
 	if (!GetWorld()->GetTimerManager().IsTimerActive(AmmoTimerHandle))
 	{
@@ -116,22 +125,11 @@ void UTP_WeaponComponent::Reload()
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, Character->GetActorLocation());
 		}
-		GetWorld()->GetTimerManager().SetTimer(AmmoTimerHandle, this, &UTP_WeaponComponent::Reloading, ReloadTime, false);
+		GetWorld()->GetTimerManager().SetTimer(AmmoTimerHandle, this, &UWeaponComponent::Reloading, ReloadTime, false);
 	}
 }
 
-void UTP_WeaponComponent::AttachWeapon(ABoltCharacter* TargetCharacter)
+void UWeaponComponent::Reloading()
 {
-	Character = TargetCharacter;
-	if(Character != nullptr)
-	{
-		// Attach the weapon to the First Person Character
-		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
-		GetOwner()->AttachToComponent(Character->GetMesh1P(),AttachmentRules, FName(TEXT("GripPoint")));
-
-		// Register so that Fire is called every time the character tries to use the item being held
-		Character->OnUseItem.AddDynamic(this, &UTP_WeaponComponent::Fire);
-		Character->OnUseReload.AddDynamic(this, &UTP_WeaponComponent::Reload);
-	}
+	Ammo = MaxAmmo;
 }
-
