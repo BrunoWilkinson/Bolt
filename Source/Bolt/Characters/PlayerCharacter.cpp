@@ -2,7 +2,7 @@
 
 
 #include "PlayerCharacter.h"
-#include "../TP_WeaponComponent.h"
+#include "../Components/WeaponComponent.h"
 #include "../Actors/Weapon.h"
 #include "../Components/SpellComponent.h"
 #include "Animation/AnimInstance.h"

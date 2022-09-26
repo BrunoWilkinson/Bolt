@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SpellComponent.h"
-#include "../BoltCharacter.h"
+#include "../Characters/PlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -12,7 +12,7 @@ USpellComponent::USpellComponent()
 {
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 	LineTraceDistance = FVector(500.0f, 0.0f, 10.0f);
-	Character = Cast<ABoltCharacter>(GetOwner());
+	Character = Cast<APlayerCharacter>(GetOwner());
 }
 
 void USpellComponent::BeginPlay()
