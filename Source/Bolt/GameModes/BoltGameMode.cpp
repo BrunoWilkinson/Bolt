@@ -1,10 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BoltGameMode.h"
-#include "BoltCharacter.h"
-#include "AICharacter.h"
-#include "Components/HealthComponent.h"
-#include "Controllers/BoltPlayerController.h"
+#include "../Characters/PlayerCharacter.h"
+#include "../Characters/BotCharacter.h"
+#include "../Components/HealthComponent.h"
+#include "../Controllers/BoltPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -23,7 +23,7 @@ void ABoltGameMode::BeginPlay()
 	InitialTotalEnemies = GetTotalEnemies();
 	InitialTotalDestructibleObjects = GetTotalDestructibleObjects();
 
-	ABoltCharacter* PlayerCharacter = Cast<ABoltCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	PlayerController = Cast<ABoltPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 	if (PlayerCharacter != nullptr)
@@ -97,7 +97,7 @@ int32 ABoltGameMode::GetTotalDestroyedObjects()
 int32 ABoltGameMode::GetTotalEnemies()
 {
 	TArray<AActor*> Enemies;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AAICharacter::StaticClass(), Enemies);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABotCharacter::StaticClass(), Enemies);
 	return Enemies.Num();
 }
 
