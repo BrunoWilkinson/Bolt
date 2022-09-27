@@ -24,5 +24,6 @@ Technical Recap:
 - PlayFab integration
 - Level Design
 - Basic UI logic
+- Build a Rating System that communicates to the PlayFab API
 
 v1.0.0
