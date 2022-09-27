@@ -52,8 +52,7 @@ void APlayerCharacter::BeginPlay()
 			UWeaponComponent* WeaponComponent = Weapon->GetWeaponComponent();
 			if (WeaponComponent != nullptr)
 			{
-				// Change the type for the argument
-				// WeaponComponent->AttachWeapon(this);
+				WeaponComponent->AttachWeapon(this);
 			}
 		}
 	}
