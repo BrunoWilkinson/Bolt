@@ -1,6 +1,7 @@
 # Remove assets to save money :(
 Content/InfinityBladeEffects/*
 Content/SoulCity/*
+Content/ParagonDrongo/*
 
 # Visual Studio 2015 user specific files
 .vs/
